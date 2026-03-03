@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YVY | Comprar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f3;
+      --panel: #ffffff;
+      --ink: #121212;
+      --muted: #575757;
+      --line: rgba(17, 17, 17, 0.12);
+      --radius: 16px;
+      --ease: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 0% 0%, #ffffff, transparent 35%), var(--bg);
+    }
+
+    .container {
+      width: min(100% - 2rem, 1120px);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(245, 245, 243, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-image {
+      width: 112px;
+      height: auto;
+      display: block;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    main { padding: 3rem 0 4rem; }
+
+    h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+    }
+
+    .lead {
+      margin: 0.9rem 0 2rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: grid;
+      gap: 0.95rem;
+      cursor: pointer;
+    }
+
+    .controls,
+    .controls * {
+      cursor: auto;
+    }
+
+    .views {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+    }
+
+    .crop {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ececeb;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      aspect-ratio: 3 / 2;
+      position: relative;
+    }
+
+    .crop img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 0.75rem;
+      background: #fff;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .buy {
+      min-height: 42px;
+      border: 1px solid #111;
+      border-radius: 999px;
+      padding: 0 1rem;
+      background: #111;
+      color: #f4f4f2;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+
+    .buy:hover,
+    .buy:focus-visible {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .price {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .item.added {
+      animation: itemAdded 0.42s ease;
+    }
+
+    @keyframes itemAdded {
+      0% { transform: translateY(0); box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+      50% { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1); }
+      100% { transform: translateY(0); box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+    }
+
+    .cart-fab {
+      position: fixed;
+      right: 1.2rem;
+      bottom: 1.2rem;
+      z-index: 30;
+      min-height: 48px;
+      border: 1px solid #111;
+      border-radius: 999px;
+      background: #111;
+      color: #f4f4f2;
+      padding: 0 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-fab.bump {
+      animation: cartBump 0.35s ease;
+    }
+
+    @keyframes cartBump {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .cart-count {
+      min-width: 22px;
+      min-height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #f4f4f2;
+      color: #111;
+      font-weight: 700;
+      font-size: 0.75rem;
+      line-height: 1;
+      padding: 0 0.35rem;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.16);
+      z-index: 25;
+    }
+
+    .cart-panel {
+      position: fixed;
+      right: 1.2rem;
+      bottom: 4.8rem;
+      width: min(360px, calc(100vw - 2rem));
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: grid;
+      gap: 0.85rem;
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.15);
+      z-index: 30;
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      pointer-events: none;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+
+    .cart-panel.is-open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .cart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .cart-head h2 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .cart-close {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      min-height: 34px;
+      padding: 0 0.7rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .cart-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #2a2a2a;
+      display: grid;
+      gap: 0.5rem;
+      max-height: 200px;
+      overflow: auto;
+    }
+
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: 10px;
+      padding: 0.4rem 0.45rem;
+      background: #fff;
+    }
+
+    .cart-item-info {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .cart-item-text {
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cart-thumb {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ececeb;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 34px;
+    }
+
+    .cart-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    .cart-remove {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      min-height: 30px;
+      padding: 0 0.65rem;
+      font: inherit;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .cart-empty {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .checkout-total {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .pay {
+      min-height: 44px;
+      border: 1px solid #111;
+      border-radius: 999px;
+      padding: 0 1.2rem;
+      width: 100%;
+      background: #111;
+      color: #f4f4f2;
+      font-size: 0.76rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .cart-flyer {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: #111;
+      z-index: 40;
+      pointer-events: none;
+      transform: translate(0, 0) scale(1);
+    }
+
+    .cart-flyer.fly {
+      animation: flyToCart 0.55s var(--ease) forwards;
+    }
+
+    @keyframes flyToCart {
+      to {
+        transform: translate(var(--dx), var(--dy)) scale(0.2);
+        opacity: 0;
+      }
+    }
+
+    .shop-pop-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.32);
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    .shop-pop-overlay[hidden] {
+      display: none;
+    }
+
+    .shop-pop {
+      width: min(1040px, 100%);
+      max-height: min(90vh, 850px);
+      overflow: auto;
+      background: #f6f6f4;
+      border: 1px solid rgba(17, 17, 17, 0.12);
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+    }
+
+    .shop-pop-gallery {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 0.75rem;
+      min-height: 520px;
+    }
+
+    .shop-pop-thumbs {
+      display: grid;
+      align-content: start;
+      gap: 0.55rem;
+    }
+
+    .shop-pop-thumb {
+      width: 62px;
+      height: 78px;
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      border-radius: 10px;
+      background: #fff;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .shop-pop-thumb.is-active {
+      border-color: #111;
+      box-shadow: 0 0 0 1px #111 inset;
+    }
+
+    .shop-pop-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    .shop-pop-main {
+      border-radius: 14px;
+      border: 1px solid rgba(17, 17, 17, 0.1);
+      background: #e7e7e5;
+      overflow: hidden;
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+    }
+
+    .shop-pop-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    .shop-pop-body {
+      padding: 0.2rem 0.4rem;
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .shop-pop-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .shop-pop-close {
+      border: 1px solid rgba(17, 17, 17, 0.18);
+      border-radius: 999px;
+      background: #fff;
+      min-height: 36px;
+      padding: 0 0.85rem;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .shop-pop-price {
+      margin: 0.35rem 0 0;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .shop-size-group {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .shop-size-pill {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      background: #f8f8f7;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .shop-size-pill.is-active {
+      background: #111;
+      color: #f4f4f2;
+      border-color: #111;
+    }
+
+    .shop-pop-add {
+      min-height: 50px;
+      border-radius: 10px;
+      border: 1px solid #111;
+      background: #111;
+      color: #f5f5f5;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .checkout-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.34);
+      z-index: 75;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    .checkout-overlay[hidden] {
+      display: none;
+    }
+
+    .checkout-modal {
+      width: min(980px, 100%);
+      max-height: min(90vh, 860px);
+      overflow: auto;
+      background: #f8f8f6;
+      border: 1px solid rgba(17, 17, 17, 0.13);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+    }
+
+    .checkout-form-wrap {
+      background: #fff;
+      border: 1px solid rgba(17, 17, 17, 0.1);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .checkout-title {
+      margin: 0 0 0.8rem;
+      font-size: 1.5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+    }
+
+    .checkout-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .checkout-address-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(84px, 110px);
+      gap: 0.65rem;
+      align-items: end;
+      width: 100%;
+    }
+
+    .checkout-field {
+      display: grid;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .checkout-field label {
+      font-size: 0.84rem;
+      color: #444;
+    }
+
+    .checkout-field input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 0.7rem;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .checkout-summary {
+      background: #fff;
+      border: 1px solid rgba(17, 17, 17, 0.1);
+      border-radius: 14px;
+      padding: 1rem;
+      display: grid;
+      gap: 0.75rem;
+      align-content: start;
+    }
+
+    .checkout-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .checkout-row.total {
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-top: 1px solid rgba(17, 17, 17, 0.1);
+      padding-top: 0.7rem;
+    }
+
+    .coupon-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    .coupon-box input {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 0.65rem;
+      font: inherit;
+    }
+
+    .coupon-box button {
+      min-height: 40px;
+      border: 1px solid #111;
+      background: #111;
+      color: #f5f5f5;
+      border-radius: 10px;
+      padding: 0 0.8rem;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.85rem;
+    }
+
+    .coupon-feedback {
+      margin: 0;
+      font-size: 0.84rem;
+      color: #444;
+      min-height: 1.1em;
+    }
+
+    .checkout-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .checkout-btn {
+      min-height: 44px;
+      border-radius: 999px;
+      padding: 0 1rem;
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .checkout-btn.primary {
+      background: #111;
+      color: #f5f5f5;
+      border-color: #111;
+    }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .cart-panel {
+        right: 0.7rem;
+        bottom: 4.6rem;
+        width: calc(100vw - 1.4rem);
+      }
+
+      .cart-fab {
+        right: 0.7rem;
+        bottom: 0.7rem;
+      }
+
+      .shop-pop {
+        grid-template-columns: 1fr;
+      }
+
+      .shop-pop-gallery {
+        grid-template-columns: 1fr;
+        min-height: 380px;
+      }
+
+      .shop-pop-thumbs {
+        display: flex;
+      }
+
+      .shop-pop-main {
+        min-height: 380px;
+      }
+
+      .checkout-modal {
+        grid-template-columns: 1fr;
+      }
+
+      .checkout-address-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <img class="logo-image" src="assets/logo/Logo.png" alt="Logo YVY" />
+      <a class="back-link" href="index.html">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1>Escolha seu moletom YVY.</h1>
+      <p class="lead">Selecione cor e tamanho. Cada unidade custa <strong>R$ 199,99</strong>.</p>
+
+      <section class="grid" aria-label="Catalogo de moletons">
+        <article class="item" id="branco">
+          <div class="views">
+            <div class="crop" style="--x: 0%; --y: 0%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" data-color="Branco" data-view="front" alt="Moletom branco frente" />
+            </div>
+            <div class="crop" style="--x: 0%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" data-color="Branco" data-view="back" alt="Moletom branco costas" />
+            </div>
+          </div>
+          <h2>Branco</h2>
+          <div class="controls">
+            <label>
+              <select>
+                <option selected>Escolha o tamanho</option>
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+              </select>
+            </label>
+            <button class="buy" type="button">Comprar</button>
+          </div>
+          <p class="price">R$ 199,99 por unidade</p>
+        </article>
+
+        <article class="item" id="preto">
+          <div class="views">
+            <div class="crop" style="--x: -50%; --y: 0%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" data-color="Preto" data-view="front" alt="Moletom preto frente" />
+            </div>
+            <div class="crop" style="--x: -50%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" data-color="Preto" data-view="back" alt="Moletom preto costas" />
+            </div>
+          </div>
+          <h2>Preto</h2>
+          <div class="controls">
+            <label>
+              <select>
+                <option selected>Escolha o tamanho</option>
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+              </select>
+            </label>
+            <button class="buy" type="button">Comprar</button>
+          </div>
+          <p class="price">R$ 199,99 por unidade</p>
+        </article>
+
+        <article class="item" id="vermelho">
+          <div class="views">
+            <div class="crop" style="--x: 0%; --y: 0%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" data-color="Vermelho" data-view="front" alt="Moletom vermelho frente" />
+            </div>
+            <div class="crop" style="--x: 0%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" data-color="Vermelho" data-view="back" alt="Moletom vermelho costas" />
+            </div>
+          </div>
+          <h2>Vermelho</h2>
+          <div class="controls">
+            <label>
+              <select>
+                <option selected>Escolha o tamanho</option>
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+              </select>
+            </label>
+            <button class="buy" type="button">Comprar</button>
+          </div>
+          <p class="price">R$ 199,99 por unidade</p>
+        </article>
+
+        <article class="item" id="verde">
+          <div class="views">
+            <div class="crop" style="--x: -50%; --y: 0%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" data-color="Verde" data-view="front" alt="Moletom verde frente" />
+            </div>
+            <div class="crop" style="--x: -50%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" data-color="Verde" data-view="back" alt="Moletom verde costas" />
+            </div>
+          </div>
+          <h2>Verde</h2>
+          <div class="controls">
+            <label>
+              <select>
+                <option selected>Escolha o tamanho</option>
+                <option>P</option>
+                <option>M</option>
+                <option>G</option>
+                <option>GG</option>
+              </select>
+            </label>
+            <button class="buy" type="button">Comprar</button>
+          </div>
+          <p class="price">R$ 199,99 por unidade</p>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <button class="cart-fab" id="cart-fab" type="button" aria-expanded="false" aria-controls="cart-panel">
+    Carrinho
+    <span class="cart-count" id="cart-count">0</span>
+  </button>
+
+  <div class="cart-overlay" id="cart-overlay" hidden></div>
+
+  <aside class="cart-panel" id="cart-panel" aria-label="Detalhes da compra">
+    <div class="cart-head">
+      <h2>Pagamento</h2>
+      <button class="cart-close" id="cart-close" type="button" aria-label="Fechar carrinho">Fechar</button>
+    </div>
+    <p class="cart-empty" id="cart-empty">Seu carrinho esta vazio.</p>
+    <ul class="cart-list" id="cart-list" hidden></ul>
+    <p class="checkout-total" id="cart-total">Total: R$ 0,00</p>
+    <button class="pay" id="pay-button" type="button">Finalizar compra</button>
+  </aside>
+
+  <div class="shop-pop-overlay" id="shop-pop-overlay" hidden>
+    <section class="shop-pop" role="dialog" aria-modal="true" aria-labelledby="shop-pop-title">
+      <div class="shop-pop-gallery">
+        <div class="shop-pop-thumbs">
+          <button class="shop-pop-thumb is-active" id="shop-thumb-front" type="button">
+            <img id="shop-thumb-front-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Frente" />
+          </button>
+          <button class="shop-pop-thumb" id="shop-thumb-back" type="button">
+            <img id="shop-thumb-back-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Costas" />
+          </button>
+        </div>
+        <div class="shop-pop-main" id="shop-pop-main">
+          <img id="shop-pop-main-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Produto YVY" />
+        </div>
+      </div>
+      <div class="shop-pop-body">
+        <div class="shop-pop-head">
+          <div>
+            <h2 id="shop-pop-title">Branco</h2>
+            <p class="shop-pop-price">R$ 199,99</p>
+            <p class="lead" style="margin:0.45rem 0 0;">12x de R$ 16,66 sem juros.</p>
+          </div>
+          <button class="shop-pop-close" id="shop-pop-close" type="button" aria-label="Fechar">Fechar</button>
+        </div>
+        <div>
+          <p class="lead" style="margin:0 0 0.5rem;">Tamanho</p>
+          <div class="shop-size-group">
+            <button class="shop-size-pill is-active" type="button" data-size="P">P</button>
+            <button class="shop-size-pill" type="button" data-size="M">M</button>
+            <button class="shop-size-pill" type="button" data-size="G">G</button>
+            <button class="shop-size-pill" type="button" data-size="GG">GG</button>
+          </div>
+        </div>
+        <button class="shop-pop-add" id="shop-pop-add" type="button">Adicionar ao carrinho</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="checkout-overlay" id="checkout-overlay" hidden>
+    <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <div class="checkout-form-wrap">
+        <h2 class="checkout-title" id="checkout-title">Dados para pagamento</h2>
+        <form id="checkout-form" class="checkout-grid">
+          <div class="checkout-field">
+            <label for="checkout-name">Nome completo</label>
+            <input id="checkout-name" name="name" type="text" required />
+          </div>
+          <div class="checkout-field">
+            <label for="checkout-cpf">CPF</label>
+            <input id="checkout-cpf" name="cpf" type="text" inputmode="numeric" required />
+          </div>
+          <div class="checkout-field">
+            <label for="checkout-phone">Telefone</label>
+            <input id="checkout-phone" name="phone" type="tel" inputmode="tel" required />
+          </div>
+          <div class="checkout-field">
+            <label for="checkout-cep">CEP</label>
+            <input id="checkout-cep" name="cep" type="text" inputmode="numeric" required />
+          </div>
+          <div class="checkout-address-row">
+            <div class="checkout-field">
+              <label for="checkout-address">Endereco</label>
+              <input id="checkout-address" name="address" type="text" required />
+            </div>
+            <div class="checkout-field">
+              <label for="checkout-number">Numero</label>
+              <input id="checkout-number" name="number" type="text" inputmode="numeric" required />
+            </div>
+          </div>
+          <div class="checkout-field">
+            <label for="checkout-complement">Complemento do endereco</label>
+            <input id="checkout-complement" name="complement" type="text" />
+          </div>
+          <div class="checkout-actions">
+            <button class="checkout-btn" id="checkout-cancel" type="button">Cancelar</button>
+            <button class="checkout-btn primary" type="submit">Confirmar pedido</button>
+          </div>
+        </form>
+      </div>
+      <aside class="checkout-summary">
+        <h3 class="checkout-title" style="margin:0;">Resumo</h3>
+        <div class="checkout-row">
+          <span>Subtotal</span>
+          <strong id="checkout-subtotal">R$ 0,00</strong>
+        </div>
+        <div class="checkout-row">
+          <span>Desconto cupom</span>
+          <strong id="checkout-discount">R$ 0,00</strong>
+        </div>
+        <div>
+          <label for="coupon-input" style="font-size:0.84rem; color:#444;">Cupom</label>
+          <div class="coupon-box">
+            <input id="coupon-input" type="text" placeholder="Ex: YVY10" />
+            <button id="apply-coupon" type="button">Aplicar</button>
+          </div>
+          <p class="coupon-feedback" id="coupon-feedback"></p>
+        </div>
+        <div class="checkout-row total">
+          <span>Total final</span>
+          <strong id="checkout-total-final">R$ 0,00</strong>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    const imageSets = {
+      bw: [
+        'assets/moletom.preto.branco/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_57_13.png',
+        './assets/moletom.preto.branco/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_57_13.png'
+      ],
+      rg: [
+        'assets/moletom.verde.vermelho/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_55_45.png',
+        './assets/moletom.verde.vermelho/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_55_45.png'
+      ]
+    };
+
+    const fallbackImage =
+      "data:image/svg+xml;charset=UTF-8," +
+      encodeURIComponent(
+        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000'>" +
+        "<rect width='800' height='1000' fill='#e7e7e5'/>" +
+        "<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#666' font-family='Arial, sans-serif' font-size='28'>Imagem nao encontrada</text>" +
+        "</svg>"
+      );
+
+    const resolvedSet = new Map();
+
+    function resolveFirstAvailable(candidates) {
+      return new Promise((resolve) => {
+        let index = 0;
+
+        const tryNext = () => {
+          if (index >= candidates.length) {
+            resolve(null);
+            return;
+          }
+
+          const src = candidates[index++];
+          const img = new Image();
+          img.onload = () => resolve(src);
+          img.onerror = tryNext;
+          img.src = src;
+        };
+
+        tryNext();
+      });
+    }
+
+    async function bindImages() {
+      const targets = [...document.querySelectorAll('img[data-image-set]')];
+
+      for (const target of targets) {
+        const key = target.dataset.imageSet;
+        if (!imageSets[key]) {
+          target.src = fallbackImage;
+          continue;
+        }
+
+        if (!resolvedSet.has(key)) {
+          resolvedSet.set(key, resolveFirstAvailable(imageSets[key]));
+        }
+
+        const resolved = await resolvedSet.get(key);
+        target.src = resolved || fallbackImage;
+      }
+    }
+
+    const UNIT_PRICE = 199.99;
+    const cart = new Map();
+    const cartListEl = document.getElementById('cart-list');
+    const cartEmptyEl = document.getElementById('cart-empty');
+    const cartTotalEl = document.getElementById('cart-total');
+    const cartCountEl = document.getElementById('cart-count');
+    const payButtonEl = document.getElementById('pay-button');
+    const cartFabEl = document.getElementById('cart-fab');
+    const cartPanelEl = document.getElementById('cart-panel');
+    const cartOverlayEl = document.getElementById('cart-overlay');
+    const cartCloseEl = document.getElementById('cart-close');
+    const shopPopOverlayEl = document.getElementById('shop-pop-overlay');
+    const shopPopMainEl = document.getElementById('shop-pop-main');
+    const shopPopMainImgEl = document.getElementById('shop-pop-main-img');
+    const shopPopTitleEl = document.getElementById('shop-pop-title');
+    const shopThumbFrontEl = document.getElementById('shop-thumb-front');
+    const shopThumbBackEl = document.getElementById('shop-thumb-back');
+    const shopThumbFrontImgEl = document.getElementById('shop-thumb-front-img');
+    const shopThumbBackImgEl = document.getElementById('shop-thumb-back-img');
+    const shopPopCloseEl = document.getElementById('shop-pop-close');
+    const shopPopAddEl = document.getElementById('shop-pop-add');
+    const shopSizePills = [...document.querySelectorAll('.shop-size-pill')];
+    const checkoutOverlayEl = document.getElementById('checkout-overlay');
+    const checkoutFormEl = document.getElementById('checkout-form');
+    const checkoutCancelEl = document.getElementById('checkout-cancel');
+    const checkoutSubtotalEl = document.getElementById('checkout-subtotal');
+    const checkoutDiscountEl = document.getElementById('checkout-discount');
+    const checkoutTotalFinalEl = document.getElementById('checkout-total-final');
+    const applyCouponEl = document.getElementById('apply-coupon');
+    const couponInputEl = document.getElementById('coupon-input');
+    const couponFeedbackEl = document.getElementById('coupon-feedback');
+    const colorMeta = {
+      Branco: { imageSet: 'bw', cellX: 0 },
+      Preto: { imageSet: 'bw', cellX: 1 },
+      Vermelho: { imageSet: 'rg', cellX: 0 },
+      Verde: { imageSet: 'rg', cellX: 1 }
+    };
+    const productMeta = {
+      Branco: { imageSet: 'bw' },
+      Preto: { imageSet: 'bw' },
+      Vermelho: { imageSet: 'rg' },
+      Verde: { imageSet: 'rg' }
+    };
+    const thumbCache = new Map();
+    const thumbPending = new Map();
+    const centeredViewCache = new Map();
+    const centeredViewPending = new Map();
+    const centeredViewProfiles = {
+      card: { width: 900, height: 600, padding: 1.1 },
+      main: { width: 980, height: 980, padding: 1.05 },
+      thumb: { width: 124, height: 156, padding: 1.08 }
+    };
+    let activePopColor = 'Branco';
+    let activePopView = 'front';
+    let activePopImages = { front: fallbackImage, back: fallbackImage };
+    let activePopSize = 'P';
+    let checkoutDiscountRate = 0;
+
+    function formatCurrency(value) {
+      return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function getCartSubtotal() {
+      const items = [...cart.values()];
+      return items.reduce((sum, item) => sum + item.quantity * UNIT_PRICE, 0);
+    }
+
+    function renderCheckoutSummary() {
+      const subtotal = getCartSubtotal();
+      const discount = subtotal * checkoutDiscountRate;
+      const final = Math.max(0, subtotal - discount);
+      checkoutSubtotalEl.textContent = formatCurrency(subtotal);
+      checkoutDiscountEl.textContent = `- ${formatCurrency(discount)}`;
+      checkoutTotalFinalEl.textContent = formatCurrency(final);
+    }
+
+    function openCheckout() {
+      checkoutDiscountRate = 0;
+      couponInputEl.value = '';
+      couponFeedbackEl.textContent = '';
+      renderCheckoutSummary();
+      checkoutOverlayEl.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      checkoutOverlayEl.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    function getResolvedImageSrc(setKey) {
+      const src = imageSets[setKey]?.[0];
+      return src || fallbackImage;
+    }
+
+    function detectSubjectBounds(imageData, width, height) {
+      const data = imageData.data;
+      const corners = [
+        [0, 0],
+        [width - 1, 0],
+        [0, height - 1],
+        [width - 1, height - 1]
+      ];
+
+      let bgR = 0;
+      let bgG = 0;
+      let bgB = 0;
+      for (const [x, y] of corners) {
+        const i = (y * width + x) * 4;
+        bgR += data[i];
+        bgG += data[i + 1];
+        bgB += data[i + 2];
+      }
+      bgR /= corners.length;
+      bgG /= corners.length;
+      bgB /= corners.length;
+
+      let minX = width;
+      let minY = height;
+      let maxX = -1;
+      let maxY = -1;
+      const threshold = 18;
+
+      for (let y = 0; y < height; y += 1) {
+        for (let x = 0; x < width; x += 1) {
+          const i = (y * width + x) * 4;
+          const alpha = data[i + 3];
+          if (alpha < 20) {
+            continue;
+          }
+
+          const dr = Math.abs(data[i] - bgR);
+          const dg = Math.abs(data[i + 1] - bgG);
+          const db = Math.abs(data[i + 2] - bgB);
+          const delta = dr + dg + db;
+
+          if (delta > threshold) {
+            if (x < minX) minX = x;
+            if (y < minY) minY = y;
+            if (x > maxX) maxX = x;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (maxX < minX || maxY < minY) {
+        return { minX: 0, minY: 0, maxX: width - 1, maxY: height - 1 };
+      }
+
+      return { minX, minY, maxX, maxY };
+    }
+
+    async function buildCenteredThumb(color) {
+      const meta = colorMeta[color];
+      if (!meta) {
+        return fallbackImage;
+      }
+
+      const src = getResolvedImageSrc(meta.imageSet);
+      const img = new Image();
+      img.src = src;
+      await img.decode();
+
+      const cellW = Math.floor(img.naturalWidth / 2);
+      const cellH = Math.floor(img.naturalHeight / 2);
+      const sx = meta.cellX * cellW;
+      const sy = 0;
+
+      const cropCanvas = document.createElement('canvas');
+      cropCanvas.width = cellW;
+      cropCanvas.height = cellH;
+      const cropCtx = cropCanvas.getContext('2d');
+      cropCtx.drawImage(img, sx, sy, cellW, cellH, 0, 0, cellW, cellH);
+
+      const imageData = cropCtx.getImageData(0, 0, cellW, cellH);
+      const b = detectSubjectBounds(imageData, cellW, cellH);
+
+      const boxW = Math.max(1, b.maxX - b.minX + 1);
+      const boxH = Math.max(1, b.maxY - b.minY + 1);
+      const centerX = (b.minX + b.maxX) / 2;
+      const centerY = (b.minY + b.maxY) / 2;
+      const outputSize = 68;
+      const fitPadding = 1.22;
+      const scale = Math.min(
+        outputSize / (boxW * fitPadding),
+        outputSize / (boxH * fitPadding)
+      );
+
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = outputSize;
+      outCanvas.height = outputSize;
+      const outCtx = outCanvas.getContext('2d');
+      const drawW = cellW * scale;
+      const drawH = cellH * scale;
+      const dx = outputSize / 2 - centerX * scale;
+      const dy = outputSize / 2 - centerY * scale;
+      outCtx.drawImage(cropCanvas, 0, 0, cellW, cellH, dx, dy, drawW, drawH);
+
+      return outCanvas.toDataURL('image/png');
+    }
+
+    function ensureThumb(color) {
+      if (thumbCache.has(color)) {
+        return Promise.resolve(thumbCache.get(color));
+      }
+      if (thumbPending.has(color)) {
+        return thumbPending.get(color);
+      }
+
+      const promise = buildCenteredThumb(color)
+        .then((dataUrl) => {
+          thumbCache.set(color, dataUrl);
+          thumbPending.delete(color);
+          return dataUrl;
+        })
+        .catch(() => {
+          thumbPending.delete(color);
+          return fallbackImage;
+        });
+
+      thumbPending.set(color, promise);
+      return promise;
+    }
+
+    async function buildCenteredView(color, view, profileName) {
+      const profile = centeredViewProfiles[profileName] || centeredViewProfiles.main;
+      const meta = colorMeta[color];
+      if (!meta) {
+        return fallbackImage;
+      }
+
+      const src = await resolveProductImage(meta.imageSet);
+      const img = new Image();
+      img.src = src;
+      await img.decode();
+
+      const cellW = Math.floor(img.naturalWidth / 2);
+      const cellH = Math.floor(img.naturalHeight / 2);
+      const sx = meta.cellX * cellW;
+      const sy = view === 'back' ? cellH : 0;
+
+      const cellCanvas = document.createElement('canvas');
+      cellCanvas.width = cellW;
+      cellCanvas.height = cellH;
+      const cellCtx = cellCanvas.getContext('2d');
+      cellCtx.drawImage(img, sx, sy, cellW, cellH, 0, 0, cellW, cellH);
+
+      const imageData = cellCtx.getImageData(0, 0, cellW, cellH);
+      const b = detectSubjectBounds(imageData, cellW, cellH);
+      const boxW = Math.max(1, b.maxX - b.minX + 1);
+      const boxH = Math.max(1, b.maxY - b.minY + 1);
+      const centerX = (b.minX + b.maxX) / 2;
+      const centerY = (b.minY + b.maxY) / 2;
+      const scale = Math.min(
+        profile.width / (boxW * profile.padding),
+        profile.height / (boxH * profile.padding)
+      );
+
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = profile.width;
+      outCanvas.height = profile.height;
+      const outCtx = outCanvas.getContext('2d');
+      const drawW = cellW * scale;
+      const drawH = cellH * scale;
+      const dx = profile.width / 2 - centerX * scale;
+      const dy = profile.height / 2 - centerY * scale;
+      outCtx.drawImage(cellCanvas, 0, 0, cellW, cellH, dx, dy, drawW, drawH);
+
+      return outCanvas.toDataURL('image/png');
+    }
+
+    function ensureCenteredView(color, view, profileName) {
+      const key = `${color}:${view}:${profileName}`;
+      if (centeredViewCache.has(key)) {
+        return Promise.resolve(centeredViewCache.get(key));
+      }
+      if (centeredViewPending.has(key)) {
+        return centeredViewPending.get(key);
+      }
+
+      const promise = buildCenteredView(color, view, profileName)
+        .then((dataUrl) => {
+          centeredViewCache.set(key, dataUrl);
+          centeredViewPending.delete(key);
+          return dataUrl;
+        })
+        .catch(() => {
+          centeredViewPending.delete(key);
+          return fallbackImage;
+        });
+
+      centeredViewPending.set(key, promise);
+      return promise;
+    }
+
+    async function hydrateCatalogViews() {
+      const catalogImages = [...document.querySelectorAll('.crop img[data-color][data-view]')];
+      await Promise.all(
+        catalogImages.map(async (img) => {
+          const color = img.dataset.color;
+          const view = img.dataset.view;
+          const centered = await ensureCenteredView(color, view, 'card');
+          img.src = centered;
+        })
+      );
+    }
+
+    function renderCart() {
+      const items = [...cart.values()];
+      const count = items.reduce((sum, item) => sum + item.quantity, 0);
+      cartCountEl.textContent = String(count);
+
+      if (!items.length) {
+        cartListEl.hidden = true;
+        cartEmptyEl.hidden = false;
+        cartListEl.innerHTML = '';
+        cartTotalEl.textContent = 'Total: R$ 0,00';
+        return;
+      }
+
+      cartListEl.hidden = false;
+      cartEmptyEl.hidden = true;
+
+      cartListEl.innerHTML = items
+        .map((item) => {
+          const meta = colorMeta[item.color] || { imageSet: 'bw' };
+          const imageSrc = thumbCache.get(item.color) || getResolvedImageSrc(meta.imageSet);
+          const encodedKey = encodeURIComponent(item.key);
+
+          return (
+            `<li class="cart-item-row">` +
+              `<div class="cart-item-info">` +
+                `<span class="cart-thumb">` +
+                  `<img src="${imageSrc}" alt="${item.color}" />` +
+                `</span>` +
+                `<span class="cart-item-text">${item.color} - Tam. ${item.size}: ${item.quantity} un.</span>` +
+              `</div>` +
+              `<button class="cart-remove" type="button" data-remove-key="${encodedKey}">Remover</button>` +
+            `</li>`
+          );
+        })
+        .join('');
+
+      const total = items.reduce((sum, item) => sum + item.quantity * UNIT_PRICE, 0);
+      cartTotalEl.textContent = `Total: ${formatCurrency(total)}`;
+    }
+
+    function setCartOpen(isOpen) {
+      cartPanelEl.classList.toggle('is-open', isOpen);
+      cartOverlayEl.hidden = !isOpen;
+      cartFabEl.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function animateCartAdd(button) {
+      const from = button.getBoundingClientRect();
+      const to = cartFabEl.getBoundingClientRect();
+      const flyer = document.createElement('span');
+
+      flyer.className = 'cart-flyer';
+      flyer.style.left = `${from.left + from.width / 2}px`;
+      flyer.style.top = `${from.top + from.height / 2}px`;
+      flyer.style.setProperty('--dx', `${to.left + to.width / 2 - (from.left + from.width / 2)}px`);
+      flyer.style.setProperty('--dy', `${to.top + to.height / 2 - (from.top + from.height / 2)}px`);
+
+      document.body.appendChild(flyer);
+      requestAnimationFrame(() => flyer.classList.add('fly'));
+      flyer.addEventListener('animationend', () => flyer.remove(), { once: true });
+
+      cartFabEl.classList.remove('bump');
+      void cartFabEl.offsetWidth;
+      cartFabEl.classList.add('bump');
+    }
+
+    function addToCart(color, size, triggerEl, sourceItemEl) {
+      const key = `${color}-${size}`;
+      if (cart.has(key)) {
+        cart.get(key).quantity += 1;
+      } else {
+        cart.set(key, { key, color, size, quantity: 1 });
+      }
+
+      if (sourceItemEl) {
+        sourceItemEl.classList.remove('added');
+        void sourceItemEl.offsetWidth;
+        sourceItemEl.classList.add('added');
+      }
+
+      if (triggerEl) {
+        animateCartAdd(triggerEl);
+      }
+
+      renderCart();
+      ensureThumb(color).then(() => renderCart());
+    }
+
+    async function resolveProductImage(setKey) {
+      if (!imageSets[setKey]) {
+        return fallbackImage;
+      }
+      if (!resolvedSet.has(setKey)) {
+        resolvedSet.set(setKey, resolveFirstAvailable(imageSets[setKey]));
+      }
+      const resolved = await resolvedSet.get(setKey);
+      return resolved || fallbackImage;
+    }
+
+    function setPopView(view) {
+      activePopView = view;
+      shopPopMainImgEl.src = view === 'front' ? activePopImages.front : activePopImages.back;
+      shopThumbFrontEl.classList.toggle('is-active', view === 'front');
+      shopThumbBackEl.classList.toggle('is-active', view === 'back');
+    }
+
+    function setPopSize(size) {
+      activePopSize = size;
+      shopSizePills.forEach((pill) => {
+        pill.classList.toggle('is-active', pill.dataset.size === size);
+      });
+    }
+
+    async function openProductPop(color) {
+      const meta = productMeta[color];
+      if (!meta) {
+        return;
+      }
+
+      activePopColor = color;
+      setPopView('front');
+      setPopSize('P');
+      shopPopTitleEl.textContent = color;
+      const requestedColor = color;
+      const [mainFront, mainBack, thumbFront, thumbBack] = await Promise.all([
+        ensureCenteredView(color, 'front', 'main'),
+        ensureCenteredView(color, 'back', 'main'),
+        ensureCenteredView(color, 'front', 'thumb'),
+        ensureCenteredView(color, 'back', 'thumb')
+      ]);
+      if (activePopColor !== requestedColor) {
+        return;
+      }
+      activePopImages = { front: mainFront, back: mainBack };
+      shopThumbFrontImgEl.src = thumbFront;
+      shopThumbBackImgEl.src = thumbBack;
+      setPopView(activePopView);
+      shopPopOverlayEl.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductPop() {
+      shopPopOverlayEl.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    function bindProductPop() {
+      document.querySelectorAll('.item').forEach((item) => {
+        item.addEventListener('click', (event) => {
+          if (event.target.closest('.controls')) {
+            return;
+          }
+          const color = item.querySelector('h2').textContent.trim();
+          openProductPop(color);
+        });
+      });
+
+      shopThumbFrontEl.addEventListener('click', () => setPopView('front'));
+      shopThumbBackEl.addEventListener('click', () => setPopView('back'));
+
+      shopSizePills.forEach((pill) => {
+        pill.addEventListener('click', () => setPopSize(pill.dataset.size));
+      });
+
+      shopPopAddEl.addEventListener('click', () => {
+        const sourceItem = document.getElementById(activePopColor.toLowerCase());
+        addToCart(activePopColor, activePopSize, shopPopAddEl, sourceItem);
+        closeProductPop();
+      });
+
+      shopPopCloseEl.addEventListener('click', closeProductPop);
+      shopPopOverlayEl.addEventListener('click', (event) => {
+        if (event.target === shopPopOverlayEl) {
+          closeProductPop();
+        }
+      });
+    }
+
+    function bindCart() {
+      const buyButtons = document.querySelectorAll('.buy');
+
+      buyButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const item = button.closest('.item');
+          const color = item.querySelector('h2').textContent.trim();
+          const sizeSelect = item.querySelector('select');
+          const size = sizeSelect.value;
+
+          if (size === 'Escolha o tamanho') {
+            alert(`Selecione um tamanho para o moletom ${color}.`);
+            return;
+          }
+          addToCart(color, size, button, item);
+        });
+      });
+
+      payButtonEl.addEventListener('click', () => {
+        if (!cart.size) {
+          alert('Adicione itens ao carrinho antes de finalizar a compra.');
+          return;
+        }
+        openCheckout();
+      });
+
+      cartListEl.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-remove-key]');
+        if (!target) {
+          return;
+        }
+
+        const key = decodeURIComponent(target.getAttribute('data-remove-key'));
+        cart.delete(key);
+        renderCart();
+      });
+
+      cartFabEl.addEventListener('click', () => {
+        setCartOpen(!cartPanelEl.classList.contains('is-open'));
+      });
+
+      cartCloseEl.addEventListener('click', () => setCartOpen(false));
+      cartOverlayEl.addEventListener('click', () => setCartOpen(false));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          setCartOpen(false);
+          closeProductPop();
+          closeCheckout();
+        }
+      });
+
+      checkoutCancelEl.addEventListener('click', closeCheckout);
+      checkoutOverlayEl.addEventListener('click', (event) => {
+        if (event.target === checkoutOverlayEl) {
+          closeCheckout();
+        }
+      });
+
+      applyCouponEl.addEventListener('click', () => {
+        const coupon = couponInputEl.value.trim().toUpperCase();
+        const coupons = {
+          YVY10: 0.10,
+          YVY15: 0.15
+        };
+
+        if (!coupon) {
+          checkoutDiscountRate = 0;
+          couponFeedbackEl.textContent = 'Digite um cupom para aplicar desconto.';
+          renderCheckoutSummary();
+          return;
+        }
+
+        if (!coupons[coupon]) {
+          checkoutDiscountRate = 0;
+          couponFeedbackEl.textContent = 'Cupom invalido.';
+          renderCheckoutSummary();
+          return;
+        }
+
+        checkoutDiscountRate = coupons[coupon];
+        couponFeedbackEl.textContent = `Cupom ${coupon} aplicado com sucesso.`;
+        renderCheckoutSummary();
+      });
+
+      checkoutFormEl.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(checkoutFormEl);
+        const name = String(formData.get('name') || '').trim();
+        const cpf = String(formData.get('cpf') || '').trim();
+        const phone = String(formData.get('phone') || '').trim();
+        const cep = String(formData.get('cep') || '').trim();
+        const address = String(formData.get('address') || '').trim();
+        const number = String(formData.get('number') || '').trim();
+
+        if (!name || !cpf || !phone || !cep || !address || !number) {
+          alert('Preencha todos os campos obrigatorios.');
+          return;
+        }
+
+        alert('Pedido confirmado com sucesso.');
+        closeCheckout();
+      });
+    }
+
+    (async () => {
+      await bindImages();
+      await hydrateCatalogViews();
+      bindProductPop();
+      bindCart();
+      renderCart();
+    })();
+  </script>
+</body>
+</html>

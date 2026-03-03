@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YVY | Streetwear Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f4f2;
+      --panel: #fafaf9;
+      --line: #d7d7d5;
+      --ink: #111111;
+      --muted: #595959;
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.08);
+      --radius: 18px;
+      --ease: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      --max-width: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.85), transparent 35%),
+        radial-gradient(circle at 88% 82%, rgba(224, 224, 224, 0.45), transparent 40%),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Manrope", sans-serif;
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(100% - 3rem, var(--max-width));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(244, 244, 242, 0.82);
+      border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .header-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 30px;
+      display: inline-block;
+    }
+
+    .logo-image {
+      width: 110px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .logo-word {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 2rem;
+      line-height: 1;
+      text-transform: lowercase;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1a1a1a;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.35rem;
+      width: 100%;
+      height: 1px;
+      background: #111;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--ease);
+    }
+
+    .nav a:hover::after,
+    .nav a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    section {
+      padding-block: clamp(4rem, 8vw, 7rem);
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(2rem, 6vw, 4rem);
+      align-items: center;
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      line-height: 1.08;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4.5vw, 3.3rem);
+      margin-bottom: 1rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    .lead {
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 1.7rem;
+      border: 1px solid #111;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #111;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: transform var(--ease), background var(--ease), color var(--ease);
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      background: #111;
+      color: #f5f5f5;
+    }
+
+    .hero-media {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      box-shadow: var(--shadow);
+      background: #e7e7e5;
+      aspect-ratio: 3 / 2;
+    }
+
+    .crop-frame {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #e5e5e3;
+      border: 1px solid rgba(17, 17, 17, 0.07);
+      aspect-ratio: 3 / 2;
+    }
+
+    .crop-frame img {
+      position: absolute;
+      inset: 0;
+      width: 200%;
+      height: 200%;
+      max-width: none;
+      object-fit: cover;
+      transform: translate(var(--x, 0), var(--y, 0));
+      transition: transform var(--ease), filter var(--ease);
+      filter: saturate(0.95) contrast(1.02);
+    }
+
+    .section-line {
+      position: absolute;
+      top: 1.5rem;
+      left: 50%;
+      width: min(92vw, 1100px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.18), transparent);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem 3rem;
+      align-items: start;
+    }
+
+    .concept-points {
+      margin: 1.4rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem 1rem;
+    }
+
+    .concept-points li {
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.86rem;
+      color: #353535;
+      width: fit-content;
+    }
+
+    .collection-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: grid;
+      gap: 1rem;
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-visual {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      aspect-ratio: 3 / 2;
+      background: #ececeb;
+    }
+
+    .card-visual .front,
+    .card-visual .back {
+      position: absolute;
+      inset: 0;
+      transition: opacity var(--ease), transform var(--ease);
+    }
+
+    .card-visual .back {
+      opacity: 0;
+      transform: scale(1.03);
+    }
+
+    .card:hover .card-visual .front {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+
+    .card:hover .card-visual .back {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+
+    .ghost {
+      background: transparent;
+      color: #151515;
+      border: 1px solid rgba(17, 17, 17, 0.22);
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all var(--ease);
+      white-space: nowrap;
+    }
+
+    .ghost:hover,
+    .ghost:focus-visible {
+      border-color: #111;
+      background: #111;
+      color: #f7f7f7;
+    }
+
+    .ghost.product-trigger {
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .price-tag {
+      margin: 0.15rem 0 0;
+      font-size: 0.8rem;
+      color: #4b4b4b;
+      letter-spacing: 0.03em;
+    }
+
+    .details-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .detail {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 360px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .detail .crop-frame {
+      border: 0;
+      border-radius: 0;
+      background: #e8e8e6;
+    }
+
+    .detail p {
+      margin: 0;
+      padding: 1rem 1rem 1.1rem;
+      border-top: 1px solid rgba(17, 17, 17, 0.08);
+      font-size: 0.92rem;
+      color: #444;
+    }
+
+    .benefits {
+      margin-top: 1.6rem;
+      padding-left: 1.1rem;
+      color: #3e3e3e;
+      max-width: 56ch;
+    }
+
+    .benefits li { margin-bottom: 0.55rem; }
+
+    .essence {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(242, 242, 240, 0.88));
+    }
+
+    .essence-wrap {
+      border: 1px solid rgba(17, 17, 17, 0.09);
+      border-radius: 20px;
+      padding: clamp(2rem, 5vw, 4rem);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .essence-wrap::before,
+    .essence-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      border: 1px solid rgba(17, 17, 17, 0.1);
+    }
+
+    .essence-wrap::before {
+      width: 320px;
+      height: 320px;
+      top: -190px;
+      right: -120px;
+    }
+
+    .essence-wrap::after {
+      width: 220px;
+      height: 220px;
+      bottom: -120px;
+      left: -80px;
+    }
+
+    .quote {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      max-width: 18ch;
+      margin: 0;
+    }
+
+    footer {
+      border-top: 1px solid rgba(17, 17, 17, 0.12);
+      background: #0d0d0d;
+      color: #f3f3f3;
+      padding: 2.5rem 0;
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #f3f3f3;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus-visible { opacity: 1; }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-pop-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.32);
+      z-index: 70;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    .product-pop-overlay[hidden] {
+      display: none;
+    }
+
+    .product-pop {
+      width: min(1120px, 100%);
+      max-height: min(90vh, 860px);
+      overflow: auto;
+      background: #f6f6f4;
+      border: 1px solid rgba(17, 17, 17, 0.12);
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+    }
+
+    .pop-gallery {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 0.8rem;
+      min-height: 560px;
+    }
+
+    .pop-thumbs {
+      display: grid;
+      align-content: start;
+      gap: 0.55rem;
+    }
+
+    .pop-thumb {
+      width: 54px;
+      height: 68px;
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      border-radius: 10px;
+      background: #fff;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .pop-thumb.is-active {
+      border-color: #111;
+      box-shadow: 0 0 0 1px #111 inset;
+    }
+
+    .pop-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pop-main {
+      border-radius: 14px;
+      border: 1px solid rgba(17, 17, 17, 0.1);
+      background: #e7e7e5;
+      overflow: hidden;
+      position: relative;
+      min-height: 560px;
+    }
+
+    .pop-main img {
+      position: absolute;
+      inset: 0;
+      width: 200%;
+      height: 200%;
+      max-width: none;
+      object-fit: cover;
+      transform: translate(var(--x, 0%), var(--y, 0%));
+    }
+
+    .pop-body {
+      padding: 0.4rem 0.5rem;
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .pop-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .pop-close {
+      border: 1px solid rgba(17, 17, 17, 0.18);
+      border-radius: 999px;
+      background: #fff;
+      min-height: 36px;
+      padding: 0 0.85rem;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .pop-price {
+      margin: 0.4rem 0 0;
+      font-size: 2.2rem;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .pop-note {
+      margin: 0;
+      color: #4f4f4f;
+      font-size: 0.98rem;
+    }
+
+    .size-group {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .size-pill {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 17, 17, 0.2);
+      background: #f8f8f7;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .size-pill.is-active {
+      background: #111;
+      color: #f4f4f2;
+      border-color: #111;
+    }
+
+    .pop-cta {
+      min-height: 52px;
+      border-radius: 10px;
+      border: 1px solid #111;
+      background: #111;
+      color: #f5f5f5;
+      letter-spacing: 0.03em;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .concept-grid,
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collection-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-media {
+        max-width: 560px;
+      }
+
+      .concept-points {
+        grid-template-columns: 1fr;
+      }
+
+      .detail { min-height: 300px; }
+
+      .product-pop {
+        grid-template-columns: 1fr;
+      }
+
+      .pop-gallery {
+        grid-template-columns: 1fr;
+        min-height: 420px;
+      }
+
+      .pop-thumbs {
+        display: flex;
+      }
+
+      .pop-main {
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container { width: min(100% - 1.4rem, var(--max-width)); }
+      .header-inner { min-height: 64px; }
+      .logo-word { font-size: 1.75rem; }
+      .nav { gap: 0.75rem; }
+      .cta { width: 100%; max-width: 320px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label="YVY">
+        <img class="logo-image" src="assets/logo/Logo.png" alt="Logo YVY" />
+      </a>
+      <div class="header-actions">
+        <nav class="nav" aria-label="Principal">
+          <a href="#conceito">Conceito</a>
+          <a href="#colecao">Colecao</a>
+          <a href="#detalhes">Detalhes</a>
+          <a href="#contato">Contato</a>
+        </nav>
+        <a class="ghost" href="shop.html" target="_blank" rel="noopener noreferrer">Comprar</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="section-line" aria-hidden="true"></span>
+      <div class="container hero-grid">
+        <div data-reveal>
+          <p class="eyebrow">YVY Streetwear Premium</p>
+          <h1>Minimalismo que veste identidade.</h1>
+          <p class="lead">Moletons com linguagem urbana sofisticada: formas limpas, acabamento premium e assinatura visual inspirada na natureza brasileira.</p>
+          <a class="cta" href="shop.html" target="_blank" rel="noopener noreferrer">Comprar agora</a>
+        </div>
+        <figure class="hero-media crop-frame" data-reveal style="--x: 0%; --y: 0%;">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Moletom YVY branco em destaque" />
+        </figure>
+      </div>
+    </section>
+
+    <section id="conceito">
+      <span class="section-line" aria-hidden="true"></span>
+      <div class="container concept-grid">
+        <div data-reveal>
+          <p class="eyebrow">Conceito</p>
+          <h2>Elegancia urbana com essencia brasileira.</h2>
+          <p class="lead">A YVY nasce do encontro entre natureza e cidade. O simbolo do sabia sobre o "v" traduz leveza, enquanto o desenho monocromatico reforca uma presenca silenciosa e marcante.</p>
+          <ul class="concept-points">
+            <li>Inspiracao na natureza</li>
+            <li>Estetica minimalista</li>
+            <li>Essencia brasileira</li>
+            <li>Sofisticacao urbana</li>
+          </ul>
+        </div>
+        <div class="crop-frame" data-reveal style="--x: -50%; --y: -50%;">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Verso do moletom preto YVY com logo ampliada" />
+        </div>
+      </div>
+    </section>
+
+    <section id="colecao">
+      <span class="section-line" aria-hidden="true"></span>
+      <div class="container">
+        <p class="eyebrow" data-reveal>Colecao</p>
+        <h2 data-reveal>Moletons premium em quatro tonalidades.</h2>
+        <p class="lead" data-reveal>Hover nos produtos para alternar entre frente e costas.</p>
+
+        <div class="collection-grid">
+          <article class="card" data-reveal id="produto-branco">
+            <div class="card-visual">
+              <div class="front crop-frame" style="--x: 0%; --y: 0%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Moletom branco YVY - frente" />
+              </div>
+              <div class="back crop-frame" style="--x: 0%; --y: -50%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Moletom branco YVY - costas" />
+              </div>
+            </div>
+            <div class="card-meta">
+              <div>
+                <h3>Branco</h3>
+                <p class="price-tag">R$ 199,99</p>
+              </div>
+              <a class="ghost" href="shop.html#branco" target="_blank" rel="noopener noreferrer">Ver detalhes</a>
+            </div>
+          </article>
+
+          <article class="card" data-reveal id="produto-preto">
+            <div class="card-visual">
+              <div class="front crop-frame" style="--x: -50%; --y: 0%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Moletom preto YVY - frente" />
+              </div>
+              <div class="back crop-frame" style="--x: -50%; --y: -50%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Moletom preto YVY - costas" />
+              </div>
+            </div>
+            <div class="card-meta">
+              <div>
+                <h3>Preto</h3>
+                <p class="price-tag">R$ 199,99</p>
+              </div>
+              <a class="ghost" href="shop.html#preto" target="_blank" rel="noopener noreferrer">Ver detalhes</a>
+            </div>
+          </article>
+
+          <article class="card" data-reveal id="produto-vermelho">
+            <div class="card-visual">
+              <div class="front crop-frame" style="--x: 0%; --y: 0%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Moletom vermelho YVY - frente" />
+              </div>
+              <div class="back crop-frame" style="--x: 0%; --y: -50%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Moletom vermelho YVY - costas" />
+              </div>
+            </div>
+            <div class="card-meta">
+              <div>
+                <h3>Vermelho</h3>
+                <p class="price-tag">R$ 199,99</p>
+              </div>
+              <a class="ghost" href="shop.html#vermelho" target="_blank" rel="noopener noreferrer">Ver detalhes</a>
+            </div>
+          </article>
+
+          <article class="card" data-reveal id="produto-verde">
+            <div class="card-visual">
+              <div class="front crop-frame" style="--x: -50%; --y: 0%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Moletom verde YVY - frente" />
+              </div>
+              <div class="back crop-frame" style="--x: -50%; --y: -50%;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Moletom verde YVY - costas" />
+              </div>
+            </div>
+            <div class="card-meta">
+              <div>
+                <h3>Verde</h3>
+                <p class="price-tag">R$ 199,99</p>
+              </div>
+              <a class="ghost" href="shop.html#verde" target="_blank" rel="noopener noreferrer">Ver detalhes</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="detalhes">
+      <span class="section-line" aria-hidden="true"></span>
+      <div class="container">
+        <p class="eyebrow" data-reveal>Detalhes do Produto</p>
+        <h2 data-reveal>Precisao visual e conforto superior.</h2>
+
+        <div class="details-grid">
+          <article class="detail" data-reveal>
+            <div class="crop-frame" style="--x: -50%; --y: 0%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="bw" alt="Close da logo no peito" />
+            </div>
+            <p>Logo frontal discreta no lado esquerdo do peito para assinatura elegante.</p>
+          </article>
+
+          <article class="detail" data-reveal>
+            <div class="crop-frame" style="--x: -50%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Close da composicao do capuz e costura" />
+            </div>
+            <p>Costuras limpas, acabamento preciso e versao reduzida da marca na ponta do capuz.</p>
+          </article>
+
+          <article class="detail" data-reveal>
+            <div class="crop-frame" style="--x: 0%; --y: -50%;">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-image-set="rg" alt="Close do tecido premium e logo traseira" />
+            </div>
+            <p>Tecido encorpado premium com toque macio e logo traseira em destaque.</p>
+          </article>
+        </div>
+
+        <ul class="benefits" data-reveal>
+          <li>Modelagem contemporanea com caimento urbano.</li>
+          <li>Detalhes sutis nas mangas para identidade exclusiva.</li>
+          <li>Durabilidade e conforto para uso diario premium.</li>
+          <li>Paleta base monocromatica com variantes de cor selecionadas.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="essence" id="sobre">
+      <span class="section-line" aria-hidden="true"></span>
+      <div class="container">
+        <div class="essence-wrap" data-reveal>
+          <p class="eyebrow">Natureza & Essencia</p>
+          <p class="quote">"YVY nasce da terra. Veste identidade."</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div class="container footer-wrap">
+      <img class="logo-image" src="assets/logo/Logo.png" alt="Logo YVY" style="filter: brightness(0) invert(1);" />
+      <nav class="footer-links" aria-label="Links do rodape">
+        <a href="#colecao">Colecao</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+        <a href="#" aria-label="Instagram da YVY">Instagram</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="product-pop-overlay" id="product-pop-overlay" hidden>
+    <section class="product-pop" role="dialog" aria-modal="true" aria-labelledby="pop-title">
+      <div class="pop-gallery">
+        <div class="pop-thumbs">
+          <button class="pop-thumb is-active" id="thumb-front" type="button">
+            <img id="thumb-front-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Frente" />
+          </button>
+          <button class="pop-thumb" id="thumb-back" type="button">
+            <img id="thumb-back-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Costas" />
+          </button>
+        </div>
+        <div class="pop-main" id="pop-main" style="--x:0%; --y:0%;">
+          <img id="pop-main-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Produto YVY" />
+        </div>
+      </div>
+      <div class="pop-body">
+        <div class="pop-head">
+          <div>
+            <p class="eyebrow" id="pop-eyebrow">Moletom YVY</p>
+            <h2 id="pop-title">Branco</h2>
+            <p class="pop-price">R$ 199,99</p>
+          </div>
+          <button class="pop-close" id="pop-close" type="button" aria-label="Fechar">Fechar</button>
+        </div>
+        <p class="pop-note">12x de R$ 16,66 sem juros. Acabamento premium e caimento urbano.</p>
+        <div>
+          <p class="eyebrow">Tamanho</p>
+          <div class="size-group">
+            <button class="size-pill is-active" type="button" data-size="P">P</button>
+            <button class="size-pill" type="button" data-size="M">M</button>
+            <button class="size-pill" type="button" data-size="G">G</button>
+            <button class="size-pill" type="button" data-size="GG">GG</button>
+          </div>
+        </div>
+        <button class="pop-cta" id="pop-add-cart" type="button">Adicionar ao carrinho</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const imageSets = {
+      bw: [
+        'assets/moletom.preto.branco/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_57_13.png',
+        './assets/moletom.preto.branco/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_57_13.png'
+      ],
+      rg: [
+        'assets/moletom.verde.vermelho/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_55_45.png',
+        './assets/moletom.verde.vermelho/ChatGPT%20Image%202%20de%20mar.%20de%202026,%2008_55_45.png'
+      ]
+    };
+
+    const fallbackImage =
+      "data:image/svg+xml;charset=UTF-8," +
+      encodeURIComponent(
+        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000'>" +
+        "<rect width='800' height='1000' fill='#e7e7e5'/>" +
+        "<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#666' font-family='Arial, sans-serif' font-size='28'>Imagem nao encontrada</text>" +
+        "</svg>"
+      );
+
+    const resolvedSet = new Map();
+
+    function resolveFirstAvailable(candidates) {
+      return new Promise((resolve) => {
+        let index = 0;
+
+        const tryNext = () => {
+          if (index >= candidates.length) {
+            resolve(null);
+            return;
+          }
+
+          const src = candidates[index++];
+          const img = new Image();
+          img.onload = () => resolve(src);
+          img.onerror = tryNext;
+          img.src = src;
+        };
+
+        tryNext();
+      });
+    }
+
+    async function bindImages() {
+      const targets = [...document.querySelectorAll('img[data-image-set]')];
+
+      for (const target of targets) {
+        const key = target.dataset.imageSet;
+        if (!imageSets[key]) {
+          target.src = fallbackImage;
+          continue;
+        }
+
+        if (!resolvedSet.has(key)) {
+          resolvedSet.set(key, resolveFirstAvailable(imageSets[key]));
+        }
+
+        const resolved = await resolvedSet.get(key);
+        target.src = resolved || fallbackImage;
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.18 }
+    );
+
+    const productMeta = {
+      Branco: { imageSet: 'bw', frontX: '0%', backX: '0%' },
+      Preto: { imageSet: 'bw', frontX: '-50%', backX: '-50%' },
+      Vermelho: { imageSet: 'rg', frontX: '0%', backX: '0%' },
+      Verde: { imageSet: 'rg', frontX: '-50%', backX: '-50%' }
+    };
+
+    const popOverlay = document.getElementById('product-pop-overlay');
+    const popMain = document.getElementById('pop-main');
+    const popMainImg = document.getElementById('pop-main-img');
+    const popTitle = document.getElementById('pop-title');
+    const popEyebrow = document.getElementById('pop-eyebrow');
+    const popClose = document.getElementById('pop-close');
+    const popAddCart = document.getElementById('pop-add-cart');
+    const thumbFront = document.getElementById('thumb-front');
+    const thumbBack = document.getElementById('thumb-back');
+    const thumbFrontImg = document.getElementById('thumb-front-img');
+    const thumbBackImg = document.getElementById('thumb-back-img');
+    const sizePills = [...document.querySelectorAll('.size-pill')];
+    let activeProduct = 'Branco';
+    let activeView = 'front';
+    let activeSize = 'P';
+
+    async function getResolvedImage(key) {
+      if (!imageSets[key]) return fallbackImage;
+      if (!resolvedSet.has(key)) {
+        resolvedSet.set(key, resolveFirstAvailable(imageSets[key]));
+      }
+      const resolved = await resolvedSet.get(key);
+      return resolved || fallbackImage;
+    }
+
+    function renderActiveView() {
+      const meta = productMeta[activeProduct];
+      popMain.style.setProperty('--x', activeView === 'front' ? meta.frontX : meta.backX);
+      popMain.style.setProperty('--y', activeView === 'front' ? '0%' : '-50%');
+      thumbFront.classList.toggle('is-active', activeView === 'front');
+      thumbBack.classList.toggle('is-active', activeView === 'back');
+    }
+
+    async function openProductPop(productName) {
+      const meta = productMeta[productName];
+      if (!meta) return;
+
+      activeProduct = productName;
+      activeView = 'front';
+      popTitle.textContent = productName;
+      popEyebrow.textContent = `Moletom YVY ${productName.toLowerCase()}`;
+
+      const src = await getResolvedImage(meta.imageSet);
+      popMainImg.src = src;
+      thumbFrontImg.src = src;
+      thumbBackImg.src = src;
+      renderActiveView();
+      popOverlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductPop() {
+      popOverlay.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    function bindProductPop() {
+      document.querySelectorAll('[data-open-product]').forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+          event.preventDefault();
+          openProductPop(trigger.dataset.openProduct);
+        });
+      });
+
+      thumbFront.addEventListener('click', () => {
+        activeView = 'front';
+        renderActiveView();
+      });
+
+      thumbBack.addEventListener('click', () => {
+        activeView = 'back';
+        renderActiveView();
+      });
+
+      popClose.addEventListener('click', closeProductPop);
+      popOverlay.addEventListener('click', (event) => {
+        if (event.target === popOverlay) closeProductPop();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !popOverlay.hidden) closeProductPop();
+      });
+
+      sizePills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          activeSize = pill.dataset.size;
+          sizePills.forEach((el) => el.classList.toggle('is-active', el === pill));
+        });
+      });
+
+      popAddCart.addEventListener('click', () => {
+        const key = 'yvyQuickCart';
+        const current = JSON.parse(localStorage.getItem(key) || '[]');
+        const index = current.findIndex((item) => item.color === activeProduct && item.size === activeSize);
+
+        if (index >= 0) {
+          current[index].quantity += 1;
+        } else {
+          current.push({ color: activeProduct, size: activeSize, quantity: 1 });
+        }
+
+        localStorage.setItem(key, JSON.stringify(current));
+        alert(`${activeProduct} tam. ${activeSize} adicionado ao carrinho.`);
+      });
+    }
+
+    bindImages();
+    document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
