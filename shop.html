@@ -1649,6 +1649,42 @@
         renderCheckoutSummary();
       });
 
+      // Restrict inputs to numbers only
+      function onlyNumbers(input) {
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/\D/g, '');
+        });
+      }
+
+      // CPF mask: 000.000.000-00
+      const cpfInput = document.getElementById('checkout-cpf');
+      cpfInput.addEventListener('input', () => {
+        let v = cpfInput.value.replace(/\D/g, '').slice(0, 11);
+        if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+        else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+        else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+        cpfInput.value = v;
+      });
+
+      // Phone mask: 00000-0000
+      const phoneInput = document.getElementById('checkout-phone');
+      phoneInput.addEventListener('input', () => {
+        let v = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+        if (v.length > 5) v = v.replace(/(\d{5})(\d{1,4})/, '$1-$2');
+        phoneInput.value = v;
+      });
+
+      // Number (house) - only digits
+      onlyNumbers(document.getElementById('checkout-number'));
+
+      // CEP - only digits
+      const cepInput = document.getElementById('checkout-cep');
+      cepInput.addEventListener('input', () => {
+        let v = cepInput.value.replace(/\D/g, '').slice(0, 8);
+        if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+        cepInput.value = v;
+      });
+
       checkoutFormEl.addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(checkoutFormEl);
