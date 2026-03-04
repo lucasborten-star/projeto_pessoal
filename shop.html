@@ -994,7 +994,7 @@
   <script>
     const SUPABASE_URL = 'https://leusdpkeffljuvwncaxt.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXNkcGtlZmZsanV2d25jYXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1ODAyNTQsImV4cCI6MjA4ODE1NjI1NH0.ft1yeA-WFcQVxXL7yGYKYj-dpa6FVZBWt11_VpkG1J0';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const imageSets = {
       bw: [
         '/assets/moletom.preto.branco/moletom-bw.png',
@@ -1667,7 +1667,7 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';
 
-        const { error } = await supabase.from('orders').insert({
+        const { error } = await sbClient.from('orders').insert({
           customer_name: name,
           customer_email: cpf,
           customer_phone: phone,
