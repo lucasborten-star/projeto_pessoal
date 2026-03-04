@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YVY | Painel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f3;
+      --panel: #ffffff;
+      --ink: #121212;
+      --muted: #575757;
+      --line: rgba(17, 17, 17, 0.12);
+      --radius: 16px;
+      --ease: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 0% 0%, #ffffff, transparent 35%), var(--bg);
+    }
+
+    .container {
+      width: min(100% - 2rem, 1120px);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(245, 245, 243, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-image {
+      width: 112px;
+      height: auto;
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .back-link, .logout-btn {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .logout-btn:hover { background: #111; color: #f4f4f2; }
+
+    main { padding: 2rem 0 4rem; }
+
+    h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .lead {
+      margin: 0.6rem 0 2rem;
+      color: var(--muted);
+    }
+
+    /* Login form */
+    .login-box {
+      max-width: 380px;
+      margin: 4rem auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .login-box h2 {
+      margin: 0 0 1.5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+    }
+
+    .field { margin-bottom: 1rem; }
+
+    .field label {
+      display: block;
+      font-size: 0.84rem;
+      color: #444;
+      margin-bottom: 0.3rem;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 0.75rem;
+      background: #fff;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .login-btn {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid #111;
+      border-radius: 999px;
+      background: #111;
+      color: #f4f4f2;
+      font-size: 0.76rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 0.5rem;
+    }
+
+    .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .login-error {
+      color: #c33;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Orders table */
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .orders-table th,
+    .orders-table td {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.88rem;
+    }
+
+    .orders-table th {
+      background: #f0f0ee;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .orders-table tr:last-child td { border-bottom: 0; }
+
+    .orders-table tr:hover td { background: rgba(0,0,0,0.02); }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-confirmed { background: #d4edda; color: #155724; }
+    .status-cancelled { background: #f8d7da; color: #721c24; }
+
+    .no-orders {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+    }
+
+    .order-items {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .order-items li {
+      font-size: 0.84rem;
+      color: #333;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+
+    .refresh-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .refresh-btn:hover { background: #111; color: #f4f4f2; }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .orders-table { font-size: 0.8rem; }
+      .orders-table th, .orders-table td { padding: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <img class="logo-image" src="/assets/logo/Logo.png" alt="Logo YVY" />
+      <div class="header-actions">
+        <a class="back-link" href="index.html">Voltar ao site</a>
+        <button class="logout-btn" id="logout-btn" type="button" hidden>Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Login -->
+      <div id="login-section">
+        <div class="login-box">
+          <h2>Acesso Admin</h2>
+          <form id="login-form">
+            <div class="field">
+              <label for="login-email">Email</label>
+              <input id="login-email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="login-password">Senha</label>
+              <input id="login-password" type="password" required />
+            </div>
+            <button class="login-btn" type="submit" id="login-submit">Entrar</button>
+            <p class="login-error" id="login-error" hidden></p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Admin Panel -->
+      <div id="admin-section" hidden>
+        <h1>Painel de Pedidos</h1>
+        <p class="lead">Visualize e gerencie todos os pedidos da loja YVY.</p>
+
+        <div class="stats" id="stats">
+          <div class="stat-card">
+            <div class="stat-label">Total de pedidos</div>
+            <div class="stat-value" id="stat-count">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Receita total</div>
+            <div class="stat-value" id="stat-revenue">R$ 0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pendentes</div>
+            <div class="stat-value" id="stat-pending">0</div>
+          </div>
+        </div>
+
+        <div class="table-header">
+          <h2 style="margin:0; font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;">Pedidos</h2>
+          <button class="refresh-btn" id="refresh-btn" type="button">Atualizar</button>
+        </div>
+
+        <div id="orders-container">
+          <p class="no-orders">Carregando pedidos...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://leusdpkeffljuvwncaxt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXNkcGtlZmZsanV2d25jYXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1ODAyNTQsImV4cCI6MjA4ODE1NjI1NH0.ft1yeA-WFcQVxXL7yGYKYj-dpa6FVZBWt11_VpkG1J0';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loginSection = document.getElementById('login-section');
+    const adminSection = document.getElementById('admin-section');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const ordersContainer = document.getElementById('orders-container');
+
+    function formatCurrency(value) {
+      return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    function showLogin() {
+      loginSection.hidden = false;
+      adminSection.hidden = true;
+      logoutBtn.hidden = true;
+    }
+
+    function showAdmin() {
+      loginSection.hidden = true;
+      adminSection.hidden = false;
+      logoutBtn.hidden = false;
+      loadOrders();
+    }
+
+    async function loadOrders() {
+      ordersContainer.innerHTML = '<p class="no-orders">Carregando pedidos...</p>';
+
+      const { data: orders, error } = await sb
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Erro ao carregar pedidos:', error);
+        if (error.code === 'PGRST301' || error.message.includes('policy')) {
+          ordersContainer.innerHTML = '<p class="no-orders" style="color:#c33;">Acesso negado. Sua conta nao tem permissao de admin.</p>';
+        } else {
+          ordersContainer.innerHTML = '<p class="no-orders" style="color:#c33;">Erro ao carregar pedidos.</p>';
+        }
+        return;
+      }
+
+      if (!orders || orders.length === 0) {
+        ordersContainer.innerHTML = '<p class="no-orders">Nenhum pedido encontrado.</p>';
+        document.getElementById('stat-count').textContent = '0';
+        document.getElementById('stat-revenue').textContent = 'R$ 0';
+        document.getElementById('stat-pending').textContent = '0';
+        return;
+      }
+
+      // Stats
+      const totalRevenue = orders.reduce((sum, o) => sum + Number(o.total), 0);
+      const pendingCount = orders.filter(o => o.status === 'pending').length;
+      document.getElementById('stat-count').textContent = orders.length;
+      document.getElementById('stat-revenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('stat-pending').textContent = pendingCount;
+
+      // Table
+      let html = `<table class="orders-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Telefone</th>
+            <th>Itens</th>
+            <th>Total</th>
+            <th>Cupom</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      for (const order of orders) {
+        const items = Array.isArray(order.items) ? order.items : [];
+        const itemsHtml = items.map(i =>
+          `<li>${i.color} - Tam. ${i.size} (${i.quantity}x)</li>`
+        ).join('');
+
+        const statusClass = `status-${order.status || 'pending'}`;
+
+        html += `<tr>
+          <td>${formatDate(order.created_at)}</td>
+          <td>
+            <strong>${order.customer_name}</strong><br/>
+            <small style="color:#666;">${order.customer_email || ''}</small><br/>
+            <small style="color:#888;">${order.customer_address || ''}</small>
+          </td>
+          <td>${order.customer_phone || '-'}</td>
+          <td><ul class="order-items">${itemsHtml}</ul></td>
+          <td><strong>${formatCurrency(order.total)}</strong>${order.discount > 0 ? '<br/><small style="color:#28a745;">-' + formatCurrency(order.discount) + '</small>' : ''}</td>
+          <td>${order.coupon_code || '-'}</td>
+          <td><span class="status-badge ${statusClass}">${order.status || 'pending'}</span></td>
+        </tr>`;
+      }
+
+      html += '</tbody></table>';
+      ordersContainer.innerHTML = html;
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.hidden = true;
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const submitBtn = document.getElementById('login-submit');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Entrando...';
+
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Entrar';
+
+      if (error) {
+        loginError.textContent = 'Email ou senha incorretos.';
+        loginError.hidden = false;
+        return;
+      }
+
+      showAdmin();
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await sb.auth.signOut();
+      showLogin();
+    });
+
+    refreshBtn.addEventListener('click', () => loadOrders());
+
+    // Check existing session
+    (async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) {
+        showAdmin();
+      } else {
+        showLogin();
+      }
+
+      sb.auth.onAuthStateChange((event, session) => {
+        if (!session) showLogin();
+      });
+    })();
+  </script>
+</body>
+</html>

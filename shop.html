@@ -990,7 +990,11 @@
     </section>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
+    const SUPABASE_URL = 'https://leusdpkeffljuvwncaxt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxldXNkcGtlZmZsanV2d25jYXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1ODAyNTQsImV4cCI6MjA4ODE1NjI1NH0.ft1yeA-WFcQVxXL7yGYKYj-dpa6FVZBWt11_VpkG1J0';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const imageSets = {
       bw: [
         '/assets/moletom.preto.branco/moletom-bw.png',
@@ -1630,7 +1634,7 @@
         renderCheckoutSummary();
       });
 
-      checkoutFormEl.addEventListener('submit', (event) => {
+      checkoutFormEl.addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(checkoutFormEl);
         const name = String(formData.get('name') || '').trim();
@@ -1639,14 +1643,57 @@
         const cep = String(formData.get('cep') || '').trim();
         const address = String(formData.get('address') || '').trim();
         const number = String(formData.get('number') || '').trim();
+        const complement = String(formData.get('complement') || '').trim();
 
         if (!name || !cpf || !phone || !cep || !address || !number) {
           alert('Preencha todos os campos obrigatorios.');
           return;
         }
 
-        alert('Pedido confirmado com sucesso.');
+        const items = [...cart.values()].map(item => ({
+          color: item.color,
+          size: item.size,
+          quantity: item.quantity,
+          unit_price: UNIT_PRICE
+        }));
+
+        const subtotal = getCartSubtotal();
+        const discount = subtotal * checkoutDiscountRate;
+        const total = Math.max(0, subtotal - discount);
+        const coupon = couponInputEl.value.trim().toUpperCase() || null;
+        const fullAddress = `${address}, ${number}${complement ? ' - ' + complement : ''} - CEP: ${cep}`;
+
+        const submitBtn = checkoutFormEl.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        const { error } = await supabase.from('orders').insert({
+          customer_name: name,
+          customer_email: cpf,
+          customer_phone: phone,
+          customer_address: fullAddress,
+          items: items,
+          subtotal: subtotal,
+          discount: discount,
+          total: total,
+          coupon_code: coupon
+        });
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirmar pedido';
+
+        if (error) {
+          console.error('Erro ao salvar pedido:', error);
+          alert('Erro ao processar pedido. Tente novamente.');
+          return;
+        }
+
+        cart.clear();
+        renderCart();
         closeCheckout();
+        setCartOpen(false);
+        alert('Pedido confirmado com sucesso! Entraremos em contato em breve.');
+        checkoutFormEl.reset();
       });
     }
 
