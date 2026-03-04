@@ -1653,14 +1653,24 @@
         event.preventDefault();
         const formData = new FormData(checkoutFormEl);
         const name = String(formData.get('name') || '').trim();
-        const cpf = String(formData.get('cpf') || '').trim();
-        const phone = String(formData.get('phone') || '').trim();
+        const cpf = String(formData.get('cpf') || '').replace(/\D/g, '').trim();
+        const ddd = String(formData.get('ddd') || '').trim();
+        const phoneRaw = String(formData.get('phone') || '').replace(/\D/g, '').trim();
+        const phone = ddd && phoneRaw ? `(${ddd}) ${phoneRaw}` : '';
         const cep = String(formData.get('cep') || '').trim();
         const address = String(formData.get('address') || '').trim();
-        const number = String(formData.get('number') || '').trim();
+        const number = String(formData.get('number') || '').replace(/\D/g, '').trim();
         const complement = String(formData.get('complement') || '').trim();
 
-        if (!name || !cpf || !phone || !cep || !address || !number) {
+        if (!name || !cpf || !ddd || !phoneRaw || !cep || !address || !number) {
+          alert('Preencha todos os campos obrigatorios.');
+          return;
+        }
+
+        if (cpf.length !== 11) {
+          alert('CPF deve conter 11 digitos.');
+          return;
+        }
           alert('Preencha todos os campos obrigatorios.');
           return;
         }
