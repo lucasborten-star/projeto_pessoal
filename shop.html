@@ -1667,7 +1667,7 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';
 
-        const { error } = await supabase.from('orders').insert({
+        const { error } = await sbClient.from('orders').insert({
           customer_name: name,
           customer_email: cpf,
           customer_phone: phone,
