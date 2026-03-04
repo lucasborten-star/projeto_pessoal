@@ -763,7 +763,7 @@
       <h1>Escolha seu moletom YVY.</h1>
       <p class="lead">Selecione cor e tamanho. Cada unidade custa <strong>R$ 199,99</strong>.</p>
 
-      <section class="grid" aria-label="Catalogo de moletons">
+      <section class="grid" aria-label="Catálogo de moletons">
         <article class="item" id="branco">
           <div class="views">
             <div class="crop" style="--x: 0%; --y: 0%;">
@@ -961,16 +961,16 @@
           </div>
           <div class="checkout-address-row">
             <div class="checkout-field">
-              <label for="checkout-address">Endereco</label>
+              <label for="checkout-address">Endereço</label>
               <input id="checkout-address" name="address" type="text" required />
             </div>
             <div class="checkout-field">
-              <label for="checkout-number">Numero</label>
+              <label for="checkout-number">Número</label>
               <input id="checkout-number" name="number" type="text" inputmode="numeric" required />
             </div>
           </div>
           <div class="checkout-field">
-            <label for="checkout-complement">Complemento do endereco</label>
+            <label for="checkout-complement">Complemento do endereço</label>
             <input id="checkout-complement" name="complement" type="text" />
           </div>
           <div class="checkout-actions">
@@ -986,7 +986,7 @@
           <strong id="checkout-subtotal">R$ 0,00</strong>
         </div>
         <div class="checkout-row">
-          <span>Desconto cupom</span>
+          <span>Desconto do cupom</span>
           <strong id="checkout-discount">R$ 0,00</strong>
         </div>
         <div>
@@ -1034,7 +1034,7 @@
       encodeURIComponent(
         "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000'>" +
         "<rect width='800' height='1000' fill='#e7e7e5'/>" +
-        "<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#666' font-family='Arial, sans-serif' font-size='28'>Imagem nao encontrada</text>" +
+        "<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#666' font-family='Arial, sans-serif' font-size='28'>Imagem não encontrada</text>" +
         "</svg>"
       );
 
@@ -1639,7 +1639,7 @@
 
         if (!coupons[coupon]) {
           checkoutDiscountRate = 0;
-          couponFeedbackEl.textContent = 'Cupom invalido.';
+          couponFeedbackEl.textContent = 'Cupom inválido.';
           renderCheckoutSummary();
           return;
         }
@@ -1699,12 +1699,12 @@
         const complement = String(formData.get('complement') || '').trim();
 
         if (!name || !cpf || !ddd || !phoneRaw || !cep || !address || !number) {
-          alert('Preencha todos os campos obrigatorios.');
+          alert('Preencha todos os campos obrigatórios.');
           return;
         }
 
         if (cpf.length !== 11) {
-          alert('CPF deve conter 11 digitos.');
+          alert('CPF deve conter 11 dígitos.');
           return;
         }
 

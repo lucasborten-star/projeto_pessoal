@@ -379,7 +379,7 @@
       if (error) {
         console.error('Erro ao carregar pedidos:', error);
         if (error.code === 'PGRST301' || error.message.includes('policy')) {
-          ordersContainer.innerHTML = '<p class="no-orders" style="color:#c33;">Acesso negado. Sua conta nao tem permissao de admin.</p>';
+          ordersContainer.innerHTML = '<p class="no-orders" style="color:#c33;">Acesso negado. Sua conta não tem permissão de administrador.</p>';
         } else {
           ordersContainer.innerHTML = '<p class="no-orders" style="color:#c33;">Erro ao carregar pedidos.</p>';
         }
